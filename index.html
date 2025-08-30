@@ -649,6 +649,7 @@
             margin: 0 auto;
             padding: 20px 0;
             display: grid; /* Use Grid for layout */
+            grid-template-rows: auto auto; /* Let grid handle row height */
             row-gap: 30px; /* Spacing handled by grid */
         }
 
@@ -696,19 +697,34 @@
 
         .edu-card {
             background: var(--card-bg);
-            padding: 30px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-soft);
             border: 1px solid var(--card-border);
             position: relative;
-            max-height: 500px; 
             overflow: hidden;
             transform-origin: top;
-            transition: max-height 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-                        padding 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+            transition: padding 0.8s cubic-bezier(0.23, 1, 0.32, 1),
                         transform 0.4s ease, 
                         box-shadow 0.4s ease, 
                         border-color 0.4s ease;
+        }
+        
+        .edu-card-content {
+            display: grid;
+            grid-template-rows: 1fr; /* Start with one row */
+            transition: grid-template-rows 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .edu-card.collapsed .edu-card-content {
+             grid-template-rows: 0fr; /* Animate to zero height */
+        }
+
+        .edu-card-inner {
+            overflow: hidden;
+        }
+
+        .edu-card-header {
+            padding: 25px 30px;
         }
         
         .edu-card::before {
@@ -734,37 +750,17 @@
         }
         
         .edu-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-primary); }
-        .edu-date { color: var(--accent-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
+        .edu-date { color: var(--accent-primary); font-weight: 600; font-size: 1.1rem; }
         .edu-institution { 
             color: var(--text-secondary); 
-            margin-bottom: 15px; 
+            margin-top: 15px;
+            padding: 0 30px;
             font-size: 1.1rem;
-            max-height: 200px;
-            opacity: 1;
-            transition: opacity 0.6s ease 0.2s, max-height 0.8s ease, margin-bottom 0.8s ease;
         }
         .edu-description {
             color: var(--text-secondary);
             line-height: 1.7;
-            margin-top: 15px;
-            max-height: 200px;
-            opacity: 1;
-            transition: opacity 0.6s ease 0.2s, max-height 0.8s ease, margin-top 0.8s ease;
-        }
-
-        .edu-card.collapsed {
-            max-height: 115px;
-            padding-top: 25px;
-            padding-bottom: 25px;
-        }
-        .edu-card.collapsed .edu-description,
-        .edu-card.collapsed .edu-institution {
-            opacity: 0;
-            max-height: 0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            transition-delay: 0s;
+            padding: 15px 30px 30px;
         }
         /* === Sequential Animation Education Section End === */
 
@@ -1346,19 +1342,31 @@
                 <div class="timeline-item" id="edu-item-hs">
                      <div class="timeline-icon"><i class="fas fa-school"></i></div>
                      <div class="edu-card" id="edu-card-hs">
-                        <h3>Higher Secondary Education</h3>
-                        <p class="edu-date">2021 - 2023</p>
-                        <p class="edu-institution">Kurumathur GHSS, Kerala</p>
-                        <p class="edu-description">Completed my higher secondary education with a specialization in Computer Science, building a strong foundation for my engineering degree.</p>
+                        <div class="edu-card-header">
+                            <h3>Higher Secondary Education</h3>
+                            <p class="edu-date">2021 - 2023</p>
+                        </div>
+                        <div class="edu-card-content">
+                            <div class="edu-card-inner">
+                                <p class="edu-institution">Kurumathur GHSS, Kerala</p>
+                                <p class="edu-description">Completed my higher secondary education with a specialization in Computer Science, building a strong foundation for my engineering degree.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                  <div class="timeline-item" id="edu-item-btech">
                     <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
                     <div class="edu-card" id="edu-card-btech">
-                        <h3>B.Tech in Computer Science</h3>
-                        <p class="edu-date">2023 - 2027</p>
-                        <p class="edu-institution">Vimal Jyothi Engineering College, Kerala</p>
-                        <p class="edu-description">Currently pursuing my degree with a focus on AI, algorithms, and network systems, actively participating in technical clubs and coding competitions.</p>
+                        <div class="edu-card-header">
+                            <h3>B.Tech in Computer Science</h3>
+                            <p class="edu-date">2023 - 2027</p>
+                        </div>
+                        <div class="edu-card-content">
+                             <div class="edu-card-inner">
+                                <p class="edu-institution">Vimal Jyothi Engineering College, Kerala</p>
+                                <p class="edu-description">Currently pursuing my degree with a focus on AI, algorithms, and network systems, actively participating in technical clubs and coding competitions.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1556,8 +1564,10 @@
             const btechCard = document.getElementById('edu-card-btech');
             let animationDone = false;
             let loopInterval = null;
+            let isPaused = false;
 
             const startLoopingAnimation = () => {
+                if (isPaused) return;
                 clearInterval(loopInterval);
                 loopInterval = setInterval(() => {
                     hsCard.classList.toggle('collapsed');
@@ -1565,31 +1575,40 @@
                 }, 3000);
             };
 
+            const pauseLoopingAnimation = () => {
+                clearInterval(loopInterval);
+            }
+
             const eduObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting && !animationDone) {
-                        animationDone = true;
-                        
-                        // Reveal first item (expanded by default)
-                        hsItem.classList.add('is-visible');
+                    if (entry.isIntersecting) {
+                        isPaused = false;
+                        if (!animationDone) {
+                             animationDone = true;
+                            // Reveal first item (expanded by default)
+                            hsItem.classList.add('is-visible');
 
-                        setTimeout(() => {
-                            // Collapse first card and reveal second
-                            hsCard.classList.add('collapsed');
-                            btechItem.classList.add('is-visible');
-                            
-                            setTimeout(startLoopingAnimation, 1000);
-                        }, 1200);
-
-                        observer.unobserve(entry.target);
+                            setTimeout(() => {
+                                // Collapse first card and reveal second
+                                hsCard.classList.add('collapsed');
+                                btechItem.classList.add('is-visible');
+                                
+                                setTimeout(startLoopingAnimation, 1000);
+                            }, 1200);
+                        } else {
+                            startLoopingAnimation();
+                        }
+                    } else {
+                        isPaused = true;
+                        pauseLoopingAnimation();
                     }
                 });
-            }, { threshold: 0.4 }); // Use a slightly higher threshold
+            }, { threshold: 0.2 }); // Trigger when 20% is visible
 
             eduObserver.observe(eduTimeline);
 
             eduTimeline.addEventListener('mouseenter', () => {
-                if (animationDone) clearInterval(loopInterval);
+                if (animationDone) pauseLoopingAnimation();
             });
 
             eduTimeline.addEventListener('mouseleave', () => {
@@ -1654,4 +1673,3 @@
     </script>
 </body>
 </html>
-
