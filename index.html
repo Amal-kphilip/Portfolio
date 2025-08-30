@@ -1564,10 +1564,10 @@
             const btechCard = document.getElementById('edu-card-btech');
             let animationDone = false;
             let loopInterval = null;
-            let isPaused = false;
+            let isPausedByMouse = false;
 
             const startLoopingAnimation = () => {
-                if (isPaused) return;
+                if (isPausedByMouse) return;
                 clearInterval(loopInterval);
                 loopInterval = setInterval(() => {
                     hsCard.classList.toggle('collapsed');
@@ -1577,42 +1577,48 @@
 
             const pauseLoopingAnimation = () => {
                 clearInterval(loopInterval);
-            }
+            };
 
-            const eduObserver = new IntersectionObserver((entries, observer) => {
+            const eduObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        isPaused = false;
+                        // Section is in view
                         if (!animationDone) {
-                             animationDone = true;
-                            // Reveal first item (expanded by default)
+                            // Run initial one-time animation
+                            animationDone = true;
                             hsItem.classList.add('is-visible');
 
                             setTimeout(() => {
-                                // Collapse first card and reveal second
                                 hsCard.classList.add('collapsed');
                                 btechItem.classList.add('is-visible');
-                                
                                 setTimeout(startLoopingAnimation, 1000);
                             }, 1200);
                         } else {
+                            // Section scrolled back into view, restart animation
                             startLoopingAnimation();
                         }
                     } else {
-                        isPaused = true;
+                        // Section is out of view, pause animation
                         pauseLoopingAnimation();
                     }
                 });
-            }, { threshold: 0.2 }); // Trigger when 20% is visible
+            }, { threshold: 0.2 });
 
             eduObserver.observe(eduTimeline);
 
             eduTimeline.addEventListener('mouseenter', () => {
-                if (animationDone) pauseLoopingAnimation();
+                isPausedByMouse = true;
+                if (animationDone) {
+                    pauseLoopingAnimation();
+                }
             });
 
             eduTimeline.addEventListener('mouseleave', () => {
-                if (animationDone) startLoopingAnimation();
+                isPausedByMouse = false;
+                // Check if the timeline is still visible before restarting
+                if (animationDone && eduTimeline.getBoundingClientRect().top < window.innerHeight && eduTimeline.getBoundingClientRect().bottom > 0) {
+                   startLoopingAnimation();
+                }
             });
         }
 
@@ -1673,3 +1679,4 @@
     </script>
 </body>
 </html>
+
