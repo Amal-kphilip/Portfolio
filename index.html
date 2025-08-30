@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amal K Philip | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Arizonia&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display.swap" rel="stylesheet">
     <style>
         :root {
@@ -685,18 +685,19 @@
         /* Footer */
         footer { background: linear-gradient(to bottom, #0a0a20 0%, #050515 100%); padding: 80px 20px 60px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.03); }
         .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 50px; }
-        .social-link { width: 60px; height: 60px; background: var(--card-bg); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--text-primary); font-size: 24px; transition: var(--transition-fast); border: 1px solid var(--card-border); position: relative; overflow: hidden; text-decoration: none;  }
-        .social-link:before { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%; background: var(--brand-color); transition: top 0.35s cubic-bezier(0.23, 1, 0.32, 1); z-index: 0; }
+        .social-link { width: 60px; height: 60px; background: var(--card-bg); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--text-primary); font-size: 24px; transition: var(--transition-fast); border: 1px solid var(--card-border); position: relative; overflow: visible; text-decoration: none;  }
+        .social-link:before { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-15px); background: var(--accent-primary); color: white; padding: 6px 12px; border-radius: 6px; font-size: 14px; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
+        .social-link:after { content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-5px); border: 6px solid transparent; border-top-color: var(--accent-primary); opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
+        .social-link:hover:before, .social-link:hover:after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-5px); }
+        .social-link:hover:after { transform: translateX(-50%) translateY(5px); }
         .social-link i { position: relative; z-index: 1; transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .social-link:hover { transform: translateY(-5px); }
-        .social-link:hover:before { top: 0; }
-        .social-link:hover i { color: white; transform: translateY(-2px); }
         .social-link:nth-child(1) { --brand-color: #333; }
         .social-link:nth-child(1):hover { box-shadow: 0 10px 25px rgba(51, 51, 51, 0.5); }
         .social-link:nth-child(2) { --brand-color: #0A66C2; }
         .social-link:nth-child(2):hover { box-shadow: 0 10px 25px rgba(10, 102, 194, 0.5); }
-        .social-link:nth-child(3) { --brand-color: #1DA1F2; }
-        .social-link:nth-child(3):hover { box-shadow: 0 10px 25px rgba(29, 161, 242, 0.5); }
+        .social-link:nth-child(3) { --brand-color: #000; }
+        .social-link:nth-child(3):hover { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); }
         .social-link:nth-child(4) { --brand-color: #E4405F; }
         .social-link:nth-child(4):hover { box-shadow: 0 10px 25px rgba(225, 48, 108, 0.5); }
         
@@ -884,7 +885,7 @@
             <div class="about-content">
                 <div class="about-image reveal">
                     <div class="image-container">
-                        <img src="images/me-pic.jpg" alt="Amal K Philip" onerror="this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'">
+                        <img src="images/me-pic.jpg" alt="Amal K Philip">
                     </div>
                 </div>
                 <div class="about-text reveal">
@@ -1037,10 +1038,10 @@
     <footer>
         <div class="footer-content">
             <div class="social-links">
-                <a href="https://github.com/Amal-kphilip" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/amal-k-philip/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-                <a href="https://x.com/AmalkPhilip?t=az1RgPn6F9Cwqm7xKQTNew&s=08" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/amallkp/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/Amal-kphilip" target="_blank" class="social-link" data-tooltip="Follow me on GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/amal-k-philip/" target="_blank" class="social-link" data-tooltip="Connect on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://x.com/AmalkPhilip?t=az1RgPn6F9Cwqm7xKQTNew&s=08" target="_blank" class="social-link" data-tooltip="Follow me on X"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.instagram.com/amallkp/" target="_blank" class="social-link" data-tooltip="Follow me on Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </footer>
@@ -1171,3 +1172,4 @@
     </script>
 </body>
 </html>
+
