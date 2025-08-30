@@ -638,49 +638,352 @@
             gap: 12px;
         }
 
-        /* Education Section */
+        /* === Sequential Animation Education Section Start === */
         #education {
             background: linear-gradient(to bottom, #101028 0%, #0d0d28 100%);
         }
 
-        .education-item {
+        .education-timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 0;
+            display: grid; /* Use Grid for layout */
+            row-gap: 30px; /* Spacing handled by grid */
+        }
+
+        .education-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 24px;
+            height: 100%;
+            width: 4px;
+            background: var(--card-border);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+       
+        .timeline-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 52px;
+            height: 52px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            z-index: 2;
+            border: 4px solid #0d0d28;
+            box-shadow: 0 0 0 4px var(--accent-primary);
+        }
+
+        .edu-card {
             background: var(--card-bg);
             padding: 30px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-soft);
-            margin-bottom: 30px;
             border: 1px solid var(--card-border);
-            transition: var(--transition-fast);
+            position: relative;
+            max-height: 500px; 
+            overflow: hidden;
+            transform-origin: top;
+            transition: max-height 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                        padding 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                        transform 0.4s ease, 
+                        box-shadow 0.4s ease, 
+                        border-color 0.4s ease;
+        }
+        
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 18px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 15px solid var(--card-border);
+            transition: border-color 0.4s ease;
         }
 
-        .education-item:hover {
-            transform: translateY(-5px);
+        .edu-card:hover {
+            transform: translateX(10px);
             box-shadow: var(--shadow-medium);
             border-color: rgba(93, 79, 240, 0.5);
         }
-        .education-item:last-child { margin-bottom: 0; }
-        .education-item h3 { font-size: 1.5rem; margin-bottom: 10px; }
-        .education-details { color: var(--text-secondary); margin-bottom: 15px; font-size: 1.1rem; }
-        .education-date { color: var(--accent-primary); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .edu-card:hover::before {
+            border-right-color: rgba(93, 79, 240, 0.5);
+        }
+        
+        .edu-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-primary); }
+        .edu-date { color: var(--accent-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
+        .edu-institution { 
+            color: var(--text-secondary); 
+            margin-bottom: 15px; 
+            font-size: 1.1rem;
+            max-height: 200px;
+            opacity: 1;
+            transition: opacity 0.6s ease 0.2s, max-height 0.8s ease, margin-bottom 0.8s ease;
+        }
+        .edu-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-top: 15px;
+            max-height: 200px;
+            opacity: 1;
+            transition: opacity 0.6s ease 0.2s, max-height 0.8s ease, margin-top 0.8s ease;
+        }
 
-        /* Contact Section */
+        .edu-card.collapsed {
+            max-height: 115px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+        .edu-card.collapsed .edu-description,
+        .edu-card.collapsed .edu-institution {
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            transition-delay: 0s;
+        }
+        /* === Sequential Animation Education Section End === */
+
+        /* === Modern Contact Section Start === */
         #contact { background: linear-gradient(to bottom, #0d0d28 0%, #0a0a20 100%); }
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-        .contact-info { display: flex; flex-direction: column; gap: 25px; }
-        .contact-item { display: flex; align-items: center; gap: 15px; padding: 20px; background: var(--card-bg); border-radius: var(--border-radius); transition: var(--transition-fast); border: 1px solid var(--card-border); }
-        .contact-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-soft); border-color: rgba(93, 79, 240, 0.5); }
-        .contact-icon { width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; flex-shrink: 0; }
-        .contact-text h3 { font-size: 1.2rem; margin-bottom: 5px; }
-        .contact-text p, .contact-text a { color: var(--text-secondary); text-decoration: none; transition: var(--transition-fast); }
+
+        .contact-wrapper {
+            background: rgba(15, 15, 30, 0.5);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 20%, var(--accent-primary), transparent 40%),
+                        radial-gradient(circle at 80% 80%, var(--accent-secondary), transparent 40%);
+            opacity: 0.1;
+            z-index: -1;
+            animation: subtle-glow 15s infinite alternate;
+        }
+
+        @keyframes subtle-glow {
+            from { transform: scale(1); }
+            to { transform: scale(1.5); }
+        }
+
+        .contact-container { 
+            display: grid; 
+            grid-template-columns: 1fr 1.5fr; 
+            gap: 50px; 
+            align-items: center;
+        }
+
+        .contact-info { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+
+        .contact-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            padding: 15px; 
+            background: transparent;
+            border-radius: 12px; 
+            transition: var(--transition-fast); 
+            border: 1px solid transparent; 
+            position: relative;
+        }
+
+        .contact-item:hover { 
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255,255,255,0.03);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .contact-icon { 
+            width: 50px; height: 50px; 
+            background: var(--accent-gradient); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 20px; 
+            flex-shrink: 0; 
+            transition: var(--transition-fast);
+        }
+        
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1) rotate(-10deg);
+            box-shadow: 0 8px 20px rgba(93, 79, 240, 0.4);
+        }
+
+        .contact-text h3 { 
+            font-size: 1.1rem; 
+            margin-bottom: 3px; 
+            color: var(--text-primary);
+        }
+        .contact-text p, .contact-text a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            transition: var(--transition-fast); 
+            font-size: 0.95rem;
+        }
         .contact-text a:hover { color: var(--accent-primary); }
-        .contact-form { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow-soft); border: 1px solid var(--card-border); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
-        .form-group input, .form-group textarea { width: 100%; padding: 15px; background: rgba(10, 10, 20, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; font-family: var(--font-main); font-size: 16px; color: var(--text-primary); transition: var(--transition-fast); }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 2px rgba(93, 79, 240, 0.2); }
-        .form-group textarea { min-height: 150px; resize: vertical; }
-        .submit-btn { width: 100%; padding: 16px; background: var(--accent-gradient); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--transition-fast); }
-        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(93, 79, 240, 0.4); }
+        
+        .contact-form {
+            background: transparent;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            position: relative;
+        }
+
+        .form-group { 
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: none;
+            padding: 0 5px;
+        }
+
+        .form-group input, .form-group textarea { 
+            width: 100%; 
+            padding: 15px; 
+            background: rgba(10, 10, 20, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 10px; 
+            font-family: var(--font-main); 
+            font-size: 16px; 
+            color: var(--text-primary); 
+            transition: var(--transition-fast); 
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus,
+        .form-group input:not(:placeholder-shown),
+        .form-group textarea:not(:placeholder-shown) {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: rgba(10, 10, 20, 0.8);
+        }
+
+        .form-group input:focus + label, 
+        .form-group textarea:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            color: var(--accent-primary);
+            background: #111122; /* Match the contact-wrapper inner bg */
+        }
+        
+        .form-group textarea { min-height: 120px; resize: vertical; }
+
+        .submit-btn { 
+            width: 100%; padding: 16px; 
+            background: var(--accent-gradient); 
+            color: white; border: none; 
+            border-radius: 10px; 
+            font-size: 16px; font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition-fast); 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 25px rgba(93, 79, 240, 0.4); 
+        }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        #form-toast {
+            position: absolute;
+            bottom: -70px; /* Position it outside the form initially */
+            left: 50%;
+            transform: translate(-50%, 0);
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+        #form-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -85px); /* Slide up above the button */
+        }
+        #form-toast.success {
+            background: var(--success);
+            box-shadow: 0 5px 20px rgba(0, 210, 106, 0.3);
+        }
+        #form-toast.error {
+            background: var(--danger);
+            box-shadow: 0 5px 20px rgba(255, 51, 102, 0.3);
+        }
+        /* === Modern Contact Section End === */
 
         /* Footer */
         footer { background: linear-gradient(to bottom, #0a0a20 0%, #050515 100%); padding: 80px 20px 60px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.03); }
@@ -737,18 +1040,34 @@
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-
+        
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
+        /* Staggered animation for children */
+        .reveal.visible .reveal-child {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-child {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+
         /* Responsive Design */
         @media (max-width: 1024px) { 
-            .about-content, .contact-container { 
+            .contact-container { 
                 grid-template-columns: 1fr; 
-                gap: 40px; 
-            } 
+                gap: 50px; 
+            }
+            .contact-wrapper {
+                padding: 30px;
+            }
         }
         
         @media (max-width: 900px) { 
@@ -782,6 +1101,10 @@
             .projects-grid { 
                 grid-template-columns: 1fr; 
             } 
+            .about-content { 
+                grid-template-columns: 1fr; 
+                gap: 40px; 
+            } 
             .about-image { 
                 align-items: center; 
             } 
@@ -796,6 +1119,31 @@
                 height: 50px; 
                 font-size: 20px; 
             } 
+            .education-timeline {
+                min-height: auto; /* Allow height to be natural on mobile */
+            }
+            .timeline-item {
+                min-height: auto;
+            }
+            .timeline-item-content-wrapper {
+                min-height: auto;
+            }
+            .education-timeline::before {
+                left: 14px;
+            }
+            .timeline-item {
+                padding-left: 50px;
+            }
+            .timeline-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+            .edu-card::before {
+                left: -10px;
+                top: 15px;
+                border-right-width: 10px;
+            }
         }
         
         @media (max-width: 480px) { 
@@ -811,7 +1159,7 @@
             .btn { 
                 padding: 14px 28px; 
             } 
-            .skill-category, .project-card, .education-item, .contact-item, .contact-form { 
+            .skill-category, .project-card, .edu-card, .contact-item, .contact-form { 
                 padding: 20px; 
             } 
             .section-header { 
@@ -828,6 +1176,9 @@
                 height: 45px; 
                 font-size: 18px; 
             } 
+            .contact-wrapper {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -991,18 +1342,24 @@
                 <h2 class="section-title">Education</h2>
                 <p class="section-subtitle">My academic journey and achievements</p>
             </div>
-            <div class="education-container">
-                <div class="education-item reveal">
-                    <h3>Bachelor of Technology in Computer Science and Engineering</h3>
-                    <p class="education-details">Vimal Jyothi Engineering College, Kerala, India</p>
-                    <p class="education-date"><i class="far fa-calendar-alt"></i> 2023 - 2027</p>
-                    <p>Currently pursuing my degree with a focus on AI, algorithms, and network systems. Actively participating in technical clubs and coding competitions to enhance my skills in system design and development.</p>
+            <div class="education-timeline" id="education-timeline">
+                <div class="timeline-item" id="edu-item-hs">
+                     <div class="timeline-icon"><i class="fas fa-school"></i></div>
+                     <div class="edu-card" id="edu-card-hs">
+                        <h3>Higher Secondary Education</h3>
+                        <p class="edu-date">2021 - 2023</p>
+                        <p class="edu-institution">Kurumathur GHSS, Kerala</p>
+                        <p class="edu-description">Completed my higher secondary education with a specialization in Computer Science, building a strong foundation for my engineering degree.</p>
+                    </div>
                 </div>
-                 <div class="education-item reveal">
-                    <h3>Higher Secondary Education (Computer Science)</h3>
-                    <p class="education-details">Kurumathur Government Vocational Higher Secondary School, Kerala, India</p>
-                    <p class="education-date"><i class="far fa-calendar-alt"></i> 2021 - 2023</p>
-                    <p>Completed my higher secondary education with a specialization in Computer Science, which provided a strong programming and theoretical foundation for my engineering degree.</p>
+                 <div class="timeline-item" id="edu-item-btech">
+                    <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="edu-card" id="edu-card-btech">
+                        <h3>B.Tech in Computer Science</h3>
+                        <p class="edu-date">2023 - 2027</p>
+                        <p class="edu-institution">Vimal Jyothi Engineering College, Kerala</p>
+                        <p class="edu-description">Currently pursuing my degree with a focus on AI, algorithms, and network systems, actively participating in technical clubs and coding competitions.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1015,20 +1372,39 @@
                 <h2 class="section-title">Get In Touch</h2>
                 <p class="section-subtitle">Feel free to reach out for collaborations or just a friendly hello</p>
             </div>
-            <div class="contact-container">
-                <div class="contact-info reveal">
-                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-text"><h3>Email</h3><a href="mailto:amalkphilip@proton.me">amalkphilip@proton.me</a></div></div>
-                    <div class="contact-item"><div class="contact-icon"><i class="fab fa-linkedin"></i></div><div class="contact-text"><h3>LinkedIn</h3><a href="https://www.linkedin.com/in/amal-k-philip/" target="_blank">linkedin.com/in/amal-k-philip</a></div></div>
-                    <div class="contact-item"><div class="contact-icon"><i class="fab fa-github"></i></div><div class="contact-text"><h3>GitHub</h3><a href="https://github.com/Amal-kphilip" target="_blank">github.com/Amal-kphilip</a></div></div>
-                    <div class="contact-item"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><div class="contact-text"><h3>Location</h3><p>Kerala, India</p></div></div>
-                </div>
-                <div class="contact-form reveal">
-                    <form id="contactForm">
-                        <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" required></div>
-                        <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" required></div>
-                        <div class="form-group"><label for="message">Your Message</label><textarea id="message" required></textarea></div>
-                        <button type="submit" class="submit-btn">Send Message</button>
-                    </form>
+            <div class="contact-wrapper reveal">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <div class="contact-item reveal-child"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-text"><h3>Email</h3><a href="mailto:amalkphilip2005@gmail.com">amalkphilip2005@gmail.com</a></div></div>
+                        <div class="contact-item reveal-child"><div class="contact-icon"><i class="fab fa-linkedin"></i></div><div class="contact-text"><h3>LinkedIn</h3><a href="https://www.linkedin.com/in/amal-k-philip/" target="_blank">linkedin.com/in/amal-k-philip</a></div></div>
+                        <div class="contact-item reveal-child"><div class="contact-icon"><i class="fab fa-github"></i></div><div class="contact-text"><h3>GitHub</h3><a href="https://github.com/Amal-kphilip" target="_blank">github.com/Amal-kphilip</a></div></div>
+                        <div class="contact-item reveal-child"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><div class="contact-text"><h3>Location</h3><p>Kerala, India</p></div></div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <input type="hidden" name="access_key" value="3d3683b4-502a-4d5a-a115-2eb33db45018">
+                            <input type="text" name="_honey" style="display:none">
+                            <input type="hidden" name="subject" value="New Submission from your Portfolio!">
+                            <input type="hidden" name="from_name" value="Portfolio Visitor">
+
+                            <div class="form-group reveal-child">
+                                <input type="text" id="name" name="name" required placeholder=" ">
+                                <label for="name">Full Name</label>
+                            </div>
+                            <div class="form-group reveal-child">
+                                <input type="email" id="email" name="email" required placeholder=" ">
+                                <label for="email">Email Address</label>
+                            </div>
+                            <div class="form-group reveal-child">
+                                <textarea id="message" name="message" required placeholder=" "></textarea>
+                                <label for="message">Your Message</label>
+                            </div>
+                            <div class="reveal-child">
+                                <button type="submit" class="submit-btn">Send Message</button>
+                            </div>
+                        </form>
+                        <div id="form-toast"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1111,6 +1487,7 @@
         let isDeleting = false;
 
         function type() {
+            if(!typingText) return; // Stop if element doesn't exist
             const currentPhrase = phrases[phraseIndex];
             if (isDeleting) {
                 typingText.textContent = currentPhrase.substring(0, charIndex - 1);
@@ -1142,17 +1519,18 @@
         });
 
         // --- Scroll Reveal Animation ---
-        const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Optional: unobserve after revealing
-                    // revealObserver.unobserve(entry.target);
+                    const children = entry.target.querySelectorAll('.reveal-child');
+                    children.forEach((child, index) => {
+                        child.style.transitionDelay = `${index * 200}ms`;
+                    });
                 }
             });
         }, { threshold: 0.1 });
-        revealElements.forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         
         // --- Project Card Tilt Effect ---
         document.querySelectorAll('.project-card').forEach(card => {
@@ -1168,6 +1546,110 @@
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
         });
+
+        // --- Education Section Sequential Animation & Loop ---
+        const eduTimeline = document.getElementById('education-timeline');
+        if (eduTimeline) {
+            const hsItem = document.getElementById('edu-item-hs');
+            const btechItem = document.getElementById('edu-item-btech');
+            const hsCard = document.getElementById('edu-card-hs');
+            const btechCard = document.getElementById('edu-card-btech');
+            let animationDone = false;
+            let loopInterval = null;
+
+            const startLoopingAnimation = () => {
+                clearInterval(loopInterval);
+                loopInterval = setInterval(() => {
+                    hsCard.classList.toggle('collapsed');
+                    btechCard.classList.toggle('collapsed');
+                }, 3000);
+            };
+
+            const eduObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animationDone) {
+                        animationDone = true;
+                        
+                        // Reveal first item (expanded by default)
+                        hsItem.classList.add('is-visible');
+
+                        setTimeout(() => {
+                            // Collapse first card and reveal second
+                            hsCard.classList.add('collapsed');
+                            btechItem.classList.add('is-visible');
+                            
+                            setTimeout(startLoopingAnimation, 1000);
+                        }, 1200);
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 }); // Use a slightly higher threshold
+
+            eduObserver.observe(eduTimeline);
+
+            eduTimeline.addEventListener('mouseenter', () => {
+                if (animationDone) clearInterval(loopInterval);
+            });
+
+            eduTimeline.addEventListener('mouseleave', () => {
+                if (animationDone) startLoopingAnimation();
+            });
+        }
+
+
+        // --- Contact Form Submission with Web3Forms ---
+        const contactForm = document.getElementById('contactForm');
+        const formToast = document.getElementById('form-toast');
+        const submitBtn = contactForm.querySelector('.submit-btn');
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            const object = {};
+            formData.forEach((value, key) => {
+                object[key] = value;
+            });
+            const json = JSON.stringify(object);
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let jsonResponse = await response.json();
+                if (response.status == 200) {
+                    showToast('success', '<i class="fas fa-check-circle"></i> Message sent successfully!');
+                    contactForm.reset();
+                } else {
+                    console.error(jsonResponse);
+                    showToast('error', `<i class="fas fa-exclamation-circle"></i> ${jsonResponse.message}`);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                showToast('error', '<i class="fas fa-exclamation-circle"></i> Something went wrong!');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message';
+            });
+        });
+
+        function showToast(type, message) {
+            formToast.innerHTML = message;
+            formToast.className = `show ${type}`;
+            setTimeout(function () {
+                formToast.className = formToast.className.replace('show', '');
+            }, 4000);
+        }
 
     </script>
 </body>
