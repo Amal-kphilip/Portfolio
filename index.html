@@ -45,6 +45,7 @@
         html {
             scroll-behavior: smooth;
             scroll-padding-top: calc(var(--nav-height) + 20px);
+            scroll-snap-type: y mandatory; /* Enable vertical snap scrolling */
         }
 
         body {
@@ -391,6 +392,15 @@
             padding: 100px 20px;
             position: relative;
             transition: background 0.8s ease;
+            scroll-snap-align: start; /* Define sections as snap points */
+        }
+
+        /* Make sections fill the viewport for a better snap effect */
+        #about, #skills, #projects, #education, #contact {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .section-header {
@@ -982,7 +992,13 @@
         /* === Modern Contact Section End === */
 
         /* Footer */
-        footer { background: linear-gradient(to bottom, #0a0a20 0%, #050515 100%); padding: 80px 20px 60px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.03); }
+        footer { 
+            background: linear-gradient(to bottom, #0a0a20 0%, #050515 100%); 
+            padding: 80px 20px 60px; 
+            text-align: center; 
+            border-top: 1px solid rgba(255, 255, 255, 0.03); 
+            scroll-snap-align: start; /* Make footer a snap point */
+        }
         .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 50px; }
         .social-link { width: 60px; height: 60px; background: var(--card-bg); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--text-primary); font-size: 24px; transition: var(--transition-fast); border: 1px solid var(--card-border); position: relative; overflow: visible; text-decoration: none;  }
         .social-link:before { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-15px); background: var(--accent-primary); color: white; padding: 6px 12px; border-radius: 6px; font-size: 14px; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
@@ -1679,4 +1695,3 @@
     </script>
 </body>
 </html>
-
