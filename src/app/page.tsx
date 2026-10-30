@@ -4,6 +4,7 @@ import CapabilityTicker from "@/components/landing/capability-ticker";
 import Features from "@/components/landing/features";
 import Ownership from "@/components/landing/ownership";
 import MadeWith from "@/components/landing/made-with";
+import ImageFlock from "@/components/landing/image-flock";
 import FinalCta from "@/components/landing/final-cta";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <Features />
       <Ownership />
       <MadeWith />
+      <ImageFlock />
       <FinalCta />
     </>
   );

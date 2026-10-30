@@ -34,6 +34,7 @@ export const RULER_SECTIONS: RulerSection[] = [
   { id: "features", label: "FEATURES" },
   { id: "ownership", label: "OPEN SOURCE" },
   { id: "made-with", label: "STACK" },
+  { id: "spotlight", label: "SPOTLIGHT" },
   { id: "start", label: "GITHUB" },
 ];
 
